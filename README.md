@@ -1,22 +1,22 @@
-# Forecasting busy hours on Capital Bikeshare
+# Can a calendar predict a Capital Bikeshare rush?
 
-A supervised classification project for INST414 Module 5. A decision tree trained on 2011 calendar data predicts whether each recorded hour in 2012 will have at least 400 rentals across the system. The threshold is a project definition.
+A busy hour means at least **400 rentals** across the D.C. system. The model learned from 2011 trips using three clues: the hour, the month, and whether it was a workday.
 
-## Reproduce the article
+In 2012, **497 of its 540 alerts were correct**. But it caught only **28% of all busy hours**, so a dispatcher could miss a rush even when the model predicts a quiet hour.
 
-Use Python 3.11. From this folder, run:
+## Run it
+
+From the project folder, run these two commands with Python 3.11. The data is included.
 
 ```sh
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python analysis.py --archive bike-sharing.zip
+python3.11 -m pip install -r requirements.txt
+python3.11 analysis.py
 ```
 
-Omit `--archive bike-sharing.zip` to fetch the original archive from UCI. The other inputs are fixed in the script. The run prints the split sizes, confusion matrix counts and evaluation metrics. It writes every test prediction, the five errors discussed in the article and a publication-ready figure to `results/`.
+The script prints the scores and saves three files in `results/`:
 
-In the CSVs, `busy` is the label from the observed count and `alert` is the calendar-based prediction. The columns `train_busy` and `train_hours` give the number of busy hours and total hours in the same terminal node of the fitted tree during 2011. The figure and five selected errors are also included in this package for review.
+- `busy-hours.png` compares actual busy hours with the model’s alerts by time of day.
+- `five_errors.csv` contains the five wrong predictions discussed in the article.
+- `test_predictions.csv` contains every 2012 prediction. Compare `busy` (what happened) with `alert` (what the model predicted).
 
-## Source and attribution
-
-Hadi Fanaee-T (2013), [Bike Sharing](https://doi.org/10.24432/C5W894), UCI Machine Learning Repository, based on Capital Bikeshare rental records. The original UCI ZIP is included under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). This analysis uses its hourly table and adds binary labels, model predictions and summary statistics.
+Data from Hadi Fanaee-T’s [UCI Bike Sharing dataset](https://doi.org/10.24432/C5W894), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
